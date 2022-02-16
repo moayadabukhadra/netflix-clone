@@ -9,10 +9,37 @@ function ModalMovie(props) {
     function handleCaption(e) {
         e.preventDefault()
         const userCaption = commentRef.current.value;
-        const newData = { ...props.movie, userCaption };
-        props.updateCaptions(newData, props.movie.id);
+        const newData = { ...props.movies, userCaption };
+    props.updateCaptions(newData, props.movie.id);
 
     }
+    async function addToFavorite(movie){
+        try{
+            const res = await fetch(`${process.env.REACT_APP_SERVER}/addMovie`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title : movie.title,
+                    poster_path : movie.poster_path,
+                    comment : movie.comment,
+
+                })
+                
+
+            })
+            const data = await res.json();
+
+
+
+
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
 
     return (
         <>
@@ -21,7 +48,7 @@ function ModalMovie(props) {
                     <Modal.Title>{props.movie.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <img width='100%' src={props.movie.poster_path} alt={props.movie.name} />
+                    <img width='100%' src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${props.movie.poster_path}`} alt={props.movie.title} />
                     <p>{props.movie.overview ? props.movie.overview : "No Text Provided"}</p>
                     <p>{props.movie.caption}</p>
                 </Modal.Body>
@@ -32,6 +59,9 @@ function ModalMovie(props) {
                     </Form.Group>
                     <Button className="addBtn" variant="primary" type="submit" onClick={handleCaption}  >
                         Add a Caption
+                    </Button>
+                    <Button variant="primary" onClick={()=> addToFavorite(props.movie)}>
+                        add to fav
                     </Button>
                     <Button variant="secondary" onClick={props.handleColse}>
                         Close

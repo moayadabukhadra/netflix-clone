@@ -9,10 +9,11 @@ function Home() {
 
         try {
 
-            const response = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=71e007863d8b364cd55359df4d5b9a45`)
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/trending`)
             console.log(response);
 
             const data = await response.json();
+          
             console.log(data);
             setMovies(data);
         } catch (error) {
@@ -20,9 +21,10 @@ function Home() {
         }
     };
     const updateCaptions = (data, id) => {
+   
         let updatedMovies = movies.map(movie => {
             if (movie.id === id) {
-                movie.caption = data.userCaption;
+                movie.comment = data.userCaption;
                 return movie;
             }
             else return movie

@@ -8,10 +8,10 @@ function Movie(props){
     <>
         <CardGroup style={{ display: "flex", justifyContent: "space-around" }}>
             {
-                props.movies.results.map(movie => {
+                props.movies.map(movie => {
                     return <div key={movie.id}>
-                        <Card key={movie.id} >
-                            <Card.Img variant="top" src={movie.poster_path} />
+                        <Card key={movie.id}  style={{width:550}}>
+                            <Card.Img variant="top" src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`} style={{width:500}} />
                             <Card.Body>
                                 <Card.Title>{movie.title}</Card.Title>
                                 <Card.Text>
